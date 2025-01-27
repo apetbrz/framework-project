@@ -1,0 +1,16 @@
+{
+  "name": "express_app",
+  "version": "0.0.1",
+  "description": "Sample REST API for my Senior project",
+  "license": "ISC",
+  "author": "Arthur Petroff",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "express_app": "file:"
+  }
+}
