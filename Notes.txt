@@ -1,0 +1,7 @@
+CRUD functionality
+Database read/write
+
+Three main endpoints: 
+1) HTML homepage
+2) Typical workload (password hashing? something else?)
+3) Heavy workload (matrix multiplication? something heavy)
