@@ -1,0 +1,2 @@
+actually kinda smooth to write in, callback funcs for routes can take in *whatever* and it just works
+likely need controllers to scale, which isnt too bad
