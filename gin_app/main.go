@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -23,11 +22,8 @@ func main() {
 
 	r.POST("/hash", func(c *gin.Context) {
 		var password PasswordMsg
-		fmt.Println("incoming: ", c.Request.Body)
 		c.BindJSON(&password)
-		fmt.Println(password.Password)
 		hash, _ := bcrypt.GenerateFromPassword([]byte(password.Password), 8)
-		fmt.Println(string(hash))
 		c.JSON(http.StatusOK, &PasswordMsg{Password: string(hash)})
 	})
 
