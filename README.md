@@ -8,28 +8,17 @@ For each framework, I'll follow their documentation and guidance towards develop
 
 - Axum:
 
-`cargo run`
+`cargo run` hosted on port 3000
 
-- Django:
-
-`python manage.py runserver`
 
 - .NET:
 
-Run through VSCode
+`dotnet run` hosted on port 5217
 
 - Express:
 
-`npm run dev`
+`npm run dev` hosted on port 3000
 
 - Gin:
 
 `go run main.go`
-
-- Ruby on Rails:
-
-`ruby bin/rails server`
-
-- Spring:
-
-`./gradlew bootRun`
