@@ -21,4 +21,4 @@ For each framework, I'll follow their documentation and guidance towards develop
 
 - Gin:
 
-`go run main.go`
+`go run main.go` hosted on port 8080
