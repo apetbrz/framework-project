@@ -1,6 +1,7 @@
 namespace dotnet_app;
 
 using BCrypt.Net;
+using Microsoft.AspNetCore.Rewrite;
 
 public class App{
     public static void Main(string[] args){
@@ -11,8 +12,11 @@ public class App{
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
         builder.WebHost.UseUrls("http://0.0.0.0:5217");
+        //builder.Host.UseContentRoot(Path.Combine(builder.Environment.ContentRootPath, "wwwroot"));
 
         var app = builder.Build();
+
+        app.UseStaticFiles();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -21,9 +25,11 @@ public class App{
             app.UseSwaggerUI();
         }
 
-        app.MapGet("/", (HttpContext httpContext) => {
+        app.MapGet("/hello", (HttpContext httpContext) => {
             return new Message(message: "Hello, world!");
         });
+
+        app.UseRewriter(new RewriteOptions().AddRewrite("/static", "/dotnet_static_page.html", true));
 
         app.MapPost("/hash", (PasswordMessage msg) => {
             string hash = BCrypt.HashPassword(msg.password);

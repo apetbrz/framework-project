@@ -14,11 +14,13 @@ type PasswordMsg struct {
 func main() {
 	r := gin.Default()
 
-	r.GET("/", func(c *gin.Context) {
+	r.GET("/hello", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Hello, world!",
 		})
 	})
+
+	r.StaticFile("/static", "../static/gin_static_page.html")
 
 	r.POST("/hash", func(c *gin.Context) {
 		var password PasswordMsg

@@ -1,5 +1,6 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
+const path = require("path");
 
 const port = 3001;
 
@@ -7,15 +8,13 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-    console.dir(req.ip);
+app.get("/hello", (req, res) => {
     res.json({message: "Hello World"})
 });
 
-app.get("/html", (req, res) => {
-    console.dir(req.ip);
-    res.send('<p style="margin: 300">Hello, world!</p>');
-})
+app.get("/static", (req, res) => {
+    res.sendFile(path.join(__dirname, "static/express_static_page.html"))
+});
 
 app.post("/hash", async (req, res) => {
     let msg = req.body;
