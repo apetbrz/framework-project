@@ -12,8 +12,8 @@ async fn main() {
 
     let app = Router::new()
     .route("/hello", get(hello_world))
-    .route_service("/static", ServeFile::new("../static/axum_static_page.html"))
-    //.route("/render", get())
+    .route_service("/static", ServeFile::new("static/axum_static_page.html"))
+    //.route("/dynamic", get())
     .route("/hash", post(hash))
     .route("/", get(root));
 
