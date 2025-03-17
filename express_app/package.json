@@ -12,6 +12,8 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "express": "^4.21.2",
-    "express_app": "file:"
+    "express_app": "file:",
+    "pug": "^3.0.3",
+    "uuid": "^11.1.0"
   }
 }
