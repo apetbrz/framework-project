@@ -10,27 +10,31 @@ public class App{
         builder.WebHost.UseUrls("http://0.0.0.0:5217");
         //builder.Host.UseContentRoot(Path.Combine(builder.Environment.ContentRootPath, "wwwroot"));
 
-        builder.Services.AddRazorPages();
+        builder.Services.AddRazorPages().WithRazorPagesRoot("/Pages");
 
         var app = builder.Build();
 
         app.UseStaticFiles();
 
+        app.MapGet("/", (HttpContext httpContext) => {
+            return "asp.net webserver for spring 2025 senior project - arthur petroff";
+        });
+
         app.MapGet("/hello", (HttpContext httpContext) => {
             return new Message(message: "Hello, world!");
         });
 
-        var rewrittenRoutes = new RewriteOptions();
-        rewrittenRoutes.AddRewrite("/static", "/dotnet_static_page.html", true);
-        rewrittenRoutes.AddRewrite("/dynamic", "/Dynamic/DotnetDynamicPage", true);
-
-        app.UseRewriter(rewrittenRoutes);
+        app.UseRewriter(new RewriteOptions().AddRewrite("static", "dotnet_static_page.html", true));
+        app.UseRewriter(new RewriteOptions().AddRewrite("dynamic", "Dynamic/dotnet_dynamic_page", true));
 
         app.MapPost("/hash", (PasswordMessage msg) => {
+            Guid id = Guid.NewGuid();
             string hash = BCrypt.HashPassword(msg.password);
 
-            return new PasswordMessage(password: hash);
+            return new PasswordMessage(uuid: id, password: hash);
         });
+
+        app.MapRazorPages();
 
         app.Run();
     }
@@ -38,4 +42,4 @@ public class App{
 
 record Message(string message);
 
-record PasswordMessage(string password);
+record PasswordMessage(Guid uuid, string password);

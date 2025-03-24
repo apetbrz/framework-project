@@ -10,6 +10,10 @@ const app = express();
 app.use(express.json());
 app.set('view engine', 'pug');
 
+app.get("/", (req, res) => {
+    res.send("express webserver for spring 2025 senior project - arthur petroff")
+});
+
 app.get("/hello", (req, res) => {
     res.json({message: "Hello World"})
 });
