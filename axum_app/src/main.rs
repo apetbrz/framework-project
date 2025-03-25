@@ -13,13 +13,13 @@ use uuid::Uuid;
 async fn main() {
 
     let mut env = Environment::new();
-    env.add_template("dynamic_page", include_str!("../templates/axum_dynamic_page.jinja")).unwrap();
+    env.add_template("dynamic_page", include_str!("../dynamic/axum_dynamic_page.jinja")).unwrap();
 
     let state = Arc::new(env);
 
     let app = Router::new()
     .route("/hello", get(hello_world))
-    .route_service("/static", ServeFile::new("../static/axum_static_page.html"))
+    .route_service("/static", ServeFile::new("static/axum_static_page.html"))
     .route("/dynamic", get(render_dynamic_page))
     .route("/hash", post(hash))
     .route("/", get(root))
