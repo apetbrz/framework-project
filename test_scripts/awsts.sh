@@ -19,7 +19,7 @@ hash    | {Password (default=this_is_a_very_long_password)}
 
 else
 
-args=(--pct --connections=${3:-1} --threads=${3:-1} --duration=${4:-10}s --host=http://$1/$2 --header="User-Agent: curl/7.88.1" --header="Accept: */*" --header="Host: ${1}")
+args=(--pct --connections=${3:-1} --threads=${3:-1} --duration=${4:-10}s --host=http://$1/$2 --header="User-Agent: awsts/0.1.0" --header="Accept: */*" --header="Host: ${1}")
 
 if [[ $2 = 'dynamic' ]]
 then
