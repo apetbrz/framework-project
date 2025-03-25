@@ -15,7 +15,7 @@ type PasswordMsg struct {
 func main() {
 	r := gin.Default()
 
-	r.LoadHTMLGlob("../dynamic/*")
+	r.LoadHTMLGlob("dynamic/*")
 
 	r.GET("/", func(c *gin.Context) {
 		c.String(http.StatusOK, "gin webserver for spring 2025 senior project - arthur petroff")

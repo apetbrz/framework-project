@@ -1,7 +1,7 @@
-use std::{fs::File, sync::Arc};
+use std::sync::Arc;
 
 use axum::{
-    body::Body, extract::State, http::{HeaderMap, HeaderValue, StatusCode}, response::Html, routing::{get, post}, Json, Router
+    extract::State, http::{HeaderMap, StatusCode}, response::Html, routing::{get, post}, Json, Router
 };
 use minijinja::{context, Environment};
 use tower_http::services::ServeFile;
