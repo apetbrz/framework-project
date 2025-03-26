@@ -32,8 +32,7 @@ case $target in
 
 esac
 
-
-filename=$(date "+%d-%m-%Y_%H-%M-%S_${target}_${threads}-conn_output.log")
+filename=$(date "+%d-%m-%Y_%H-%M-%S_${target}_${threads}-conn_output.json")
 
 touch $filename
 
@@ -41,28 +40,36 @@ echo "Starting $filename"
 
 hello_starttime="$(date "+%T")"
 echo "/hello start: $hello_starttime"
-hello_output=$(./awsts.sh $host hello $threads $duration --json)
+hello_output="$(./awsts.sh $host hello $threads $duration --json)"
 
 static_starttime="$(date "+%T")"
 echo "/static start: $static_starttime"
-static_output=$(./awsts.sh $host static $threads $duration --json)
+static_output="$(./awsts.sh $host static $threads $duration --json)"
 
 dynamic_starttime="$(date "+%T")"
 echo "/dynamic start: $dynamic_starttime"
-dynamic_output=$(./awsts.sh $host dynamic $threads $duration 2863311530 --json)
+dynamic_output="$(./awsts.sh $host dynamic $threads $duration 2863311530 --json)"
 
 hash_starttime="$(date "+%T")"
 echo "/hash start: $hash_starttime"
-hash_output=$(./awsts.sh $host hash $threads $duration this_is_a_very_long_password --json)
+hash_output="$(./awsts.sh $host hash $threads $duration this_is_a_very_long_password --json)"
 
 jq --null-input \
    --arg testname "${target}_${threads}-conn" \
    --arg testdate "$(date "+%d-%m-%Y")" \
+   --arg hellotime $hello_starttime \
+   --argjson hellodata $hello_output \
+   --arg statictime $static_starttime \
+   --argjson staticdata $static_output \
+   --arg dynamictime $dynamic_starttime \
+   --argjson dynamicdata $dynamic_output \
+   --arg hashtime $hash_starttime \
+   --argjson hashdata $hash_output \
   '{"test":$testname,"date":$testdate,
     "tests":{
-     "hello":{"time":"'"$hello_starttime"'","data":'"$hello_output"'},
-     "static":{"time":"'"$static_starttime"'","data":'"$static_output"'},
-     "dynamic":{"time":"'"$dynamic_starttime"'","data":'"$dynamic_output"'},
-     "hash":{"time":"'"$hash_starttime"'","data":'"$hash_output"'}
+     "hello":{"time":"$hellotime","data":$hellodata},
+     "static":{"time":"$statictime","data":$staticdata},
+     "dynamic":{"time":"$dynamictime","data":$dynamicdata},
+     "hash":{"time":"$hashtime","data":$hashdata}
     }
    }' | tee $filename
