@@ -38,8 +38,6 @@ args+=(${@:5})
 
 fi
 
-echo "${args[@]}"
-
 rewrk "${args[@]}"
 
 fi
