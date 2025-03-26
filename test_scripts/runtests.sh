@@ -32,7 +32,7 @@ case $target in
 
 esac
 
-filename=$(date "+%d-%m-%Y_%H-%M-%S_${target}_${threads}-conn_output.json")
+filename=$(date "+%Y-%m-%d_%H-%M-%S_${target}_${threads}-conn_output.json")
 
 touch $filename
 
