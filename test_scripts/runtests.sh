@@ -39,19 +39,19 @@ touch $filename
 
 echo "Starting $filename"
 
-hello_starttime="\"$(date "+%T")\""
+hello_starttime="$(date "+%T")"
 echo "/hello start: $hello_starttime"
 hello_output=$(./awsts.sh $host hello $threads $duration --json)
 
-static_starttime="\"$(date "+%T")\""
+static_starttime="$(date "+%T")"
 echo "/static start: $static_starttime"
 static_output=$(./awsts.sh $host static $threads $duration --json)
 
-dynamic_starttime="\"$(date "+%T")\""
+dynamic_starttime="$(date "+%T")"
 echo "/dynamic start: $dynamic_starttime"
 dynamic_output=$(./awsts.sh $host dynamic $threads $duration 2863311530 --json)
 
-hash_starttime="\"$(date "+%T")\""
+hash_starttime="$(date "+%T")"
 echo "/hash start: $hash_starttime"
 hash_output=$(./awsts.sh $host hash $threads $duration this_is_a_very_long_password --json)
 
@@ -60,9 +60,9 @@ jq --null-input \
    --arg testdate "$(date "+%d-%m-%Y")" \
   '{"test":$testname,"date":$testdate,
     "tests":{
-     "hello":{"time":'"$hello_starttime"',"data":'"$hello_output"'},
-     "static":{"time":'"$static_starttime"',"data":'"$static_output"'},
-     "dynamic":{"time":'"$dynamic_starttime"',"data":'"$dynamic_output"'},
-     "hash":{"time":'"$hash_starttime"',"data":'"$hash_output"'}
+     "hello":{"time":"'"$hello_starttime"'","data":'"$hello_output"'},
+     "static":{"time":"'"$static_starttime"'","data":'"$static_output"'},
+     "dynamic":{"time":"'"$dynamic_starttime"'","data":'"$dynamic_output"'},
+     "hash":{"time":"'"$hash_starttime"'","data":'"$hash_output"'}
     }
    }' | tee $filename
