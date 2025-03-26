@@ -67,9 +67,9 @@ jq --null-input \
    --argjson hashdata $hash_output \
   '{"test":$testname,"date":$testdate,
     "tests":{
-     "hello":{"time":"$hellotime","data":$hellodata},
-     "static":{"time":"$statictime","data":$staticdata},
-     "dynamic":{"time":"$dynamictime","data":$dynamicdata},
-     "hash":{"time":"$hashtime","data":$hashdata}
+     "hello":{"time":$hellotime,"data":$hellodata},
+     "static":{"time":$statictime,"data":$staticdata},
+     "dynamic":{"time":$dynamictime,"data":$dynamicdata},
+     "hash":{"time":$hashtime,"data":$hashdata}
     }
    }' | tee $filename
