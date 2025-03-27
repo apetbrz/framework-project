@@ -29,7 +29,7 @@ public class App{
 
         app.MapPost("/hash", (PasswordMessage msg) => {
             Guid id = Guid.NewGuid();
-            string hash = BCrypt.HashPassword(msg.password);
+            string hash = BCrypt.HashPassword(msg.password, 8);
 
             return new PasswordMessage(uuid: id, password: hash);
         });
