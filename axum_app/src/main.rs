@@ -4,7 +4,6 @@ use axum::{
     extract::State, http::{HeaderMap, StatusCode}, response::Html, routing::{get, post}, Json, Router
 };
 use minijinja::{context, Environment};
-use tower_http::services::ServeFile;
 use serde::{Deserialize, Serialize};
 use bcrypt;
 use uuid::Uuid;
@@ -19,7 +18,11 @@ async fn main() {
 
     let app = Router::new()
     .route("/hello", get(hello_world))
-    .route_service("/static", ServeFile::new("static/axum_static_page.html"))
+    //.route_service("/static", ServeFile::new("static/axum_static_page.html"))
+    //  UNFORTUNATELY, ServeFile is rather unoptimized, making it tremendously
+    //  slower than alternatives. (50+ms vs ~7ms)
+    //  https://github.com/tower-rs/tower-http/issues/480
+    .route("/static", get(static_file))
     .route("/dynamic", get(render_dynamic_page))
     .route("/hash", post(hash))
     .route("/", get(root))
@@ -35,6 +38,10 @@ async fn root() -> String {
 }
 async fn hello_world() -> axum::Json<TextMessage> {
     Json(TextMessage{message: "Hello World".into()})
+}
+async fn static_file() -> Html<String> {
+    let file = tokio::fs::read_to_string("static/axum_static_page.html").await.expect("missing static file!!");
+    Html(file)
 }
 async fn render_dynamic_page(State(state): State<Arc<Environment<'_>>>, headers: HeaderMap) -> Result<Html<String>, StatusCode> {
     let template = state.get_template("dynamic_page").unwrap();
