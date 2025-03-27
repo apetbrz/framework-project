@@ -27,7 +27,7 @@ func main() {
 		})
 	})
 
-	r.StaticFile("/static", "../static/gin_static_page.html")
+	r.StaticFile("/static", "static/gin_static_page.html")
 
 	r.GET("/dynamic", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "gin_dynamic_page.tmpl", gin.H{
