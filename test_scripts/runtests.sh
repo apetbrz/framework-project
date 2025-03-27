@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+if [[ $1 = '-h' || $1 = '--help' || $1 = '-?' ]]
+then
+
+echo $"
+~=[ Arthur's Automated Test System ]=~
+    for Spring 2025 Senior Project
+
+Usage:
+./runtests.sh [framework target] [conn count] {duration (60s)} {hostname (castelo.lan)}
+"
+
+exit
+
+fi
+
 host=$"${4:-"castelo.lan"}:"
 
 axum_port="3000"
