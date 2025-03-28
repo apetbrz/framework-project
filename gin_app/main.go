@@ -13,7 +13,7 @@ type PasswordMsg struct {
 }
 
 func main() {
-	r := gin.Default()
+	r := gin.New()
 
 	r.LoadHTMLGlob("dynamic/*")
 
