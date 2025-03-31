@@ -86,7 +86,7 @@ for(endpnt in endpoint){
   # create and save the png
   ggsave(
          # file name uses endpoint name
-         paste(endpnt,"_data.png", sep=""), 
+         paste("graphs/",endpnt,"_data.png", sep=""), 
 
          # plot the df
          ggplot(df,
