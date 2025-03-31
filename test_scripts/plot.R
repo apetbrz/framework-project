@@ -8,7 +8,8 @@ thread_counts <- c(1, 4, 16, 64, 256, 1024, 2048, 4096)
 
 print("Reading from freshdata/")
 print("Please ensure only one file from each test is included")
-print(paste("Checking these connection counts:",thread_counts))
+print("Checking these connection counts:")
+print(thread_counts)
 
 #read files
 axum_files <- Sys.glob(file.path("freshdata/data_axum*.json"))
@@ -36,12 +37,13 @@ endpoint <- c("hello", "static", "dynamic", "hash")
 connections <- unlist(lapply(lapply(thread_counts, make_string), make_four))
 
 # x axis: axum .net express gin axum .net express gin ...
-framework <- rep(c("Axum (Rust)", "ASP.NET (C#)", "Express (JavaScript)", "Gin (Go)"), 4)
+framework <- rep(c("Axum (Rust)", "ASP.NET (C#)", "Express (JavaScript)", "Gin (Go)"), 8)
 
 # for each endpoint (each graph .png)
 for(endpnt in endpoint){
   
   # initialize values list
+  # y axis, latency avgs
   value <- c()
 
   # for each connection count, in order
@@ -60,15 +62,22 @@ for(endpnt in endpoint){
           get_elem(frmwrk, 'test'))
       ]]
 
+      data_point <- current_data[['tests']][[endpnt]][['data']][['latency_avg']]
+
+      if(is.null(data_point)){
+        stop("NULL value found! Data is bad!")
+      }
+
       # append data to values list
-      value <- append(value,
-        current_data[['tests']][[endpnt]][['data']][['latency_avg']]
-      )
+      value <- append(value, data_point)
 
     }# end frmwrk
   }# end conn
+  
+  print(value)
+  print(connections)
 
-  # store in a datafram
+  # store in a dataframe
   df <- data.frame(connections, framework, value)
 
   # print the df, to make sure everything is okay
@@ -81,7 +90,7 @@ for(endpnt in endpoint){
 
          # plot the df
          ggplot(df,
-                # color based on frmwrk, y=data, x=conn count
+                # color based on framework, y=data, x=conn count
                 aes(fill=framework, y=value, x=connections)
                 ) + 
          # bar graph
