@@ -77,7 +77,7 @@ for(endpnt in endpoint){
   # create and save the png
   ggsave(
          # file name uses endpoint name
-         paste(ep,"_data.png", sep=""), 
+         paste(endpnt,"_data.png", sep=""), 
 
          # plot the df
          ggplot(df,
@@ -87,7 +87,7 @@ for(endpnt in endpoint){
          # bar graph
          geom_bar(position="dodge", stat="identity") + 
          # title based on endpoint
-         ggtitle(paste("/",ep,"\nEndpoint",sep="")) +
+         ggtitle(paste("/",endpnt,"\nEndpoint",sep="")) +
          # x axis label
          xlab("Concurrent Connection Count") +
          # y axis label
