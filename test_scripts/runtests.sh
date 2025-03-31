@@ -8,27 +8,37 @@ echo $"
     for Spring 2025 Senior Project
 
 Usage:
-./runtests.sh [framework target] [conn count] {duration (60s)} {hostname (castelo.lan)}
+./runtests.sh [framework target] {duration (60s)} {hostname (castelo.lan)} {threadcount}
 "
 
 exit
 
 fi
 
-host=$"${4:-"castelo.lan"}:"
-
 axum_port="3000"
 dotnet_port="5217"
 express_port="3001"
 gin_port="8080"
 
-auto_threads=(1 4 16 64 256 1024 2048 4096)
-default_duration=5
+default_threads=(1 4 16 64 256 1024 2048 4096)
+default_duration=60
 
 target=$1
-threads=($2)
-threads=${threads:-${auto_threads[@]}}
-duration=${3:-${default_duration}}
+duration=${2:-${default_duration}}
+host=$"${3:-"castelo.lan"}:"
+threads=($4)
+threads=${threads:-${default_threads[@]}}
+
+if [ ! -z "$( find freshdata -maxdepth 1 -name "data_$target*" )" ]
+then
+
+echo "Data for $target found inside freshdata/
+Please move it!
+Exiting..."
+
+exit
+
+fi
 
 case $target in
 
@@ -58,9 +68,10 @@ printf -v formatted_threadcount "%04d" $threadcount
 
 filename="data_${target}_${formatted_threadcount}-conn_$(date "+%Y-%m-%d_%H-%M-%S.json")"
 
-touch $filename
+touch "freshdata/$filename"
 
-echo "Starting $filename"
+echo "
+Starting $filename"
 
 hello_starttime="$(date "+%T")"
 echo "/hello start: $hello_starttime"
@@ -96,6 +107,8 @@ jq --null-input \
      "dynamic":{"name":"dynamic","time":$dynamictime,"data":$dynamicdata},
      "hash":{"name":"hash","time":$hashtime,"data":$hashdata}
     }
-   }' | tee $filename
+   }' > "freshdata/$filename"
+
+echo "Finished $filename"
 
 done
