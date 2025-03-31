@@ -22,9 +22,13 @@ dotnet_port="5217"
 express_port="3001"
 gin_port="8080"
 
+auto_threads=(1 4 16 64 256 1024 2048 4096)
+default_duration=5
+
 target=$1
-threads=$2
-duration=${3:-60}
+threads=($2)
+threads=${threads:-${auto_threads[@]}}
+duration=${3:-${default_duration}}
 
 case $target in
 
@@ -47,7 +51,12 @@ case $target in
 
 esac
 
-filename="${target}_${threads}-conn_$(date "+%Y-%m-%d_%H-%M-%S.json")"
+for threadcount in $threads
+do
+
+printf -v formatted_threadcount "%04d" $threadcount
+
+filename="data_${target}_${formatted_threadcount}-conn_$(date "+%Y-%m-%d_%H-%M-%S.json")"
 
 touch $filename
 
@@ -55,22 +64,22 @@ echo "Starting $filename"
 
 hello_starttime="$(date "+%T")"
 echo "/hello start: $hello_starttime"
-hello_output="$(./awsts.sh $host hello $threads $duration --json)"
+hello_output="$(./awsts.sh $host hello $threadcount $duration --json)"
 
 static_starttime="$(date "+%T")"
 echo "/static start: $static_starttime"
-static_output="$(./awsts.sh $host static $threads $duration --json)"
+static_output="$(./awsts.sh $host static $threadcount $duration --json)"
 
 dynamic_starttime="$(date "+%T")"
 echo "/dynamic start: $dynamic_starttime"
-dynamic_output="$(./awsts.sh $host dynamic $threads $duration 2863311530 --json)"
+dynamic_output="$(./awsts.sh $host dynamic $threadcount $duration 2863311530 --json)"
 
 hash_starttime="$(date "+%T")"
 echo "/hash start: $hash_starttime"
-hash_output="$(./awsts.sh $host hash $threads $duration this_is_a_very_long_password --json)"
+hash_output="$(./awsts.sh $host hash $threadcount $duration this_is_a_very_long_password --json)"
 
 jq --null-input \
-   --arg testname "${target}_${threads}-conn" \
+   --arg testname "${target}_${threadcount}-conn" \
    --arg testdate "$(date "+%d-%m-%Y")" \
    --arg hellotime $hello_starttime \
    --argjson hellodata $hello_output \
@@ -82,9 +91,11 @@ jq --null-input \
    --argjson hashdata $hash_output \
   '{"test":$testname,"date":$testdate,
     "tests":{
-     "hello":{"time":$hellotime,"data":$hellodata},
-     "static":{"time":$statictime,"data":$staticdata},
-     "dynamic":{"time":$dynamictime,"data":$dynamicdata},
-     "hash":{"time":$hashtime,"data":$hashdata}
+     "hello":{"name":"hello","time":$hellotime,"data":$hellodata},
+     "static":{"name":"static","time":$statictime,"data":$staticdata},
+     "dynamic":{"name":"dynamic","time":$dynamictime,"data":$dynamicdata},
+     "hash":{"name":"hash","time":$hashtime,"data":$hashdata}
     }
    }' | tee $filename
+
+done
