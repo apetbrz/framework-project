@@ -9,7 +9,6 @@ public class ExperimentalDynamicPageModel(ILogger<ExperimentalDynamicPageModel> 
 
     public void OnGet()
     {
-        ViewData["headerValue"] = Request.Headers["Experimental-Data"].ToString();
-        ViewData["randomNumber"] = rand.NextDouble(); // For demo purposes only
+        ViewData["headerValue"] = Request.Headers["x-connection-id"].ToString();
     }
 }

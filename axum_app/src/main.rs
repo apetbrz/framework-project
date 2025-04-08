@@ -46,15 +46,13 @@ async fn static_file() -> Html<String> {
 async fn render_dynamic_page(State(state): State<Arc<Environment<'_>>>, headers: HeaderMap) -> Result<Html<String>, StatusCode> {
     let template = state.get_template("dynamic_page").unwrap();
 
-    let header_value = match headers.get("Experimental-Data") {
+    let header_value = match headers.get("x-connection-id") {
         Some(val) => val.to_str().unwrap(),
         None => "0"
     };
-    let random_number = rand::random::<f32>();
 
     let rendered = template.render(context!{
-        header_value,
-        random_number
+        header_value
     }).unwrap();
 
     Ok(Html(rendered))

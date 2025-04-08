@@ -1,7 +1,6 @@
 package main
 
 import (
-	"math/rand"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -31,8 +30,7 @@ func main() {
 
 	r.GET("/dynamic", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "gin_dynamic_page.tmpl", gin.H{
-			"headerValue":  c.Request.Header.Get("Experimental-Data"),
-			"randomNumber": rand.Float32(),
+			"headerValue":  c.Request.Header.Get("x-connection-id"),
 		})
 	})
 

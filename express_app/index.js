@@ -23,10 +23,9 @@ app.get("/static", (req, res) => {
 });
 
 app.get("/dynamic", (req, res) => {
-    let headerValue = req.get("Experimental-Data");
-    let randomNumber = Math.random();
+    let headerValue = req.get("x-connection-id");
 
-    res.render(path.join(__dirname, "dynamic/express_dynamic_page.pug"), {headerValue, randomNumber});
+    res.render(path.join(__dirname, "dynamic/express_dynamic_page.pug"), {headerValue});
 })
 
 app.post("/hash", async (req, res) => {
