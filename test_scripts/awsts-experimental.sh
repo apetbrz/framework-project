@@ -13,7 +13,7 @@ Usage:
 Tests:  | testargs:
 hello   | NONE AVAILABLE
 static  | NONE AVAILABLE
-dynamic | {X-Connection-Id value (default=2863311530)}
+dynamic | NONE AVAILABLE
 hash    | {Password (default=this_is_a_very_long_password)}
 "
 
@@ -21,12 +21,7 @@ else
 
 args=(--pct --connections=${3:-1} --threads=${3:-1} --duration=${4:-10}s --host=http://$1/$2 --header="User-Agent: awsts/0.1.0" --header="Accept: */*" --header="Host: ${1}")
 
-if [[ $2 = 'dynamic' ]]
-then
-
-	args+=(--header="x-connection-id: ${5:-2863311530}" ${@:6})
-
-elif [[ $2 = 'hash' ]]
+if [[ $2 = 'hash' ]]
 then
 
 body=$"{\"password\":\"${5:-"this_is_a_very_long_password"}\"}"
@@ -38,6 +33,6 @@ args+=(${@:5})
 
 fi
 
-rewrk "${args[@]}"
+rewrk-experimental "${args[@]}"
 
 fi
