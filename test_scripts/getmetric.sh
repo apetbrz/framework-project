@@ -3,12 +3,12 @@
 filename=$1
 metric=$2
 
-if [[ filename = '-h' ]]
+if [[ $1 = '-h' ]]
 then
 
 echo "
-~=[ Arthur's Data Value Extrator ]=~
-   for Spring 2025 Senior Project
+~=[ Arthur's Data Metric Extractor ]=~
+    for Spring 2025 Senior Project
 
 Usage:
 ./getmetric.sh [filename] [metric]
