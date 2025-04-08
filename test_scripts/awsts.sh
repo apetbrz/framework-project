@@ -8,7 +8,7 @@ echo $"
       for Spring 2025 Senior Project
 
 Usage:
-./awsts.sh [host ip] [test name] [thread/conn count] [duration (sec)] {testargs} {passed to rewrk}
+./awsts.sh [host ip:port] [test name] [thread/conn count] [duration (sec)] {testargs} {passed to rewrk}
 
 Tests:  | testargs:
 hello   | NONE AVAILABLE
