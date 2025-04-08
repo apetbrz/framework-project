@@ -8,7 +8,7 @@ echo $"
     for Spring 2025 Senior Project
 
 Usage:
-./runtests.sh [framework target] {duration (60s)} {hostname (castelo.lan)} {threadcount}
+./runtests.sh [framework target] {duration sec (60)} {hostname (castelo.lan)} {threadcount}
 "
 
 exit
