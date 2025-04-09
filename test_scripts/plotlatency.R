@@ -13,19 +13,19 @@ print("Checking these connection counts:")
 print(thread_counts)
 
 #read files
-axum_files <- Sys.glob(file.path("freshdata/data_axum*.json"))
 dotnet_files <- Sys.glob(file.path("freshdata/data_dotnet*.json"))
+axum_files <- Sys.glob(file.path("freshdata/data_axum*.json"))
 express_files <- Sys.glob(file.path("freshdata/data_express*.json"))
 gin_files <- Sys.glob(file.path("freshdata/data_gin*.json"))
 
 #extract json
-axum_data <- lapply(axum_files, fromJSON)
 dotnet_data <- lapply(dotnet_files, fromJSON)
+axum_data <- lapply(axum_files, fromJSON)
 express_data <- lapply(express_files, fromJSON)
 gin_data <- lapply(gin_files, fromJSON)
 
 #consolidate
-data <- list("axum" = axum_data, "dotnet" = dotnet_data, "express" = express_data, "gin" = gin_data)
+data <- list("dotnet" = dotnet_data, "axum" = axum_data, "express" = express_data, "gin" = gin_data)
 
 # helper functions:
 make_multiple <- function(el, num) {rep(el,num)}
@@ -38,7 +38,7 @@ endpoint <- c("hello", "static", "dynamic", "hash")
 connections <- unlist(lapply(lapply(thread_counts, make_string), make_multiple))
 
 # x axis: axum .net express gin axum .net express gin ...
-framework <- c("Axum (Rust)", "ASP.NET (C#)", "Express (JavaScript)", "Gin (Go)")
+framework <- c("ASP.NET (C#)", "Axum (Rust)", "Express (JavaScript)", "Gin (Go)")
 
 # for each endpoint (each graph .png)
 for(endpnt in endpoint){
@@ -101,13 +101,13 @@ for(endpnt in endpoint){
                   aes(fill=framework_axis, y=value, x=connections)
                   ) + 
            # bar graph
-           geom_bar(position=position_dodge(3.1), stat="identity", width=3) + 
+           geom_bar(position=position_dodge(3.1), stat="identity", width=3, color="grey", linewidth=.5) + 
            # with std deviation bars
-           geom_errorbar(aes(x=connections, ymin=value-std_dev,ymax=value+std_dev), position=position_dodge(3.1), linewidth=0.5) +
+           geom_errorbar(aes(x=connections, ymin=value-std_dev,ymax=value+std_dev), position=position_dodge(3.1), color="black", linewidth=0.5) +
            # with labels
            geom_label_repel(aes(label=round(value,2)), position=position_dodge(3.1), size=2) + 
            # title based on endpoint
-           ggtitle(paste("/",endpnt,"\nEndpoint",sep="")) +
+           ggtitle(paste("/",endpnt," Endpoint\nLatency",sep="")) +
            # x axis label
            xlab("Concurrent Connection Count") +
            # y axis label
