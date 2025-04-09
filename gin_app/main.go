@@ -5,9 +5,14 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
+	"github.com/google/uuid"
 )
 
 type PasswordMsg struct {
+	Password string `json:"password" binding:"required"`
+}
+type PasswordResponse struct {
+	Uuid string `json:"uuid" binding:"required"`
 	Password string `json:"password" binding:"required"`
 }
 
@@ -38,7 +43,8 @@ func main() {
 		var pw PasswordMsg
 		c.BindJSON(&pw)
 		hash, _ := bcrypt.GenerateFromPassword([]byte(pw.Password), 8)
-		c.JSON(http.StatusOK, &PasswordMsg{Password: string(hash)})
+		id := uuid.NewString()
+		c.JSON(http.StatusOK, &PasswordResponse{Uuid: id, Password: string(hash)})
 	})
 
 	r.Run() // listen and serve on 0.0.0.0:8080 (for windows "localhost:8080")
