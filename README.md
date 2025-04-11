@@ -1,30 +1,34 @@
 # A Performance Comparison of Modern Web Frameworks
+### Arthur Petroff, USC Upstate CSCI 599 - Senior Seminar, Spring 2025
 
-In this project, I am comparing multiple popular web frameworks, for performance and ease of development.
+This is a study into web back-end framework performance and efficiency. Four frameworks were selected to develop small testing APIs, which were then benchmarked across four different tests of varying computational requirements. The four frameworks are as follows:
 
-For each framework, I'll follow their documentation and guidance towards developing a simple REST API for each, take notes along the way for how developer-friendly the experience is, and then benchmark them on response time, resource utilization, etc.
+- ASP.NET (C#)
+- Axum (Rust)
+- Express (JavaScript)
+- Gin Gonic (Golang)
 
-### Procedure:
+[more info todo!]
 
-todo!
+## Procedure:
 
-- Axum:
+### 0. Prerequisites
 
-`cargo run` hosted on port 3000
+`Docker version 28.0.4`
 
+### 1. Setup
 
-- .NET:
+- Clone this repo (https://github.com/apetbrz/framework-project.git) onto both the hosting server device and the latency testing client device.
+- On the server, run `build.sh` to build the docker image, then `run.sh` to start it up.
 
-`dotnet run` hosted on port 5217
+### 2. Running a test
 
-- Express:
+- On the interactive docker container, use `runserver` to start each server.
+- - Axum, ASP.NET, and Gin can all be shut down with CTRL+C
+- - `runserver stopexpress` can shut down the Express server
+- TODO: install tmux on docker, use `watchresources.sh` on server to log resource usage
+- On the testing client, use `test_scripts/runtests.sh` to start each benchmark
 
-`npm run dev` hosted on port 3000
+## Results
 
-- Gin:
-
-`go run main.go` hosted on port 8080
-
-### Results
-
-todo!
+graph pictures todo!
