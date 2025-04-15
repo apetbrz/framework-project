@@ -106,7 +106,7 @@ for(endpnt in endpoint){
   print(df)
 
   # create and save the png
-  ggsave( height=7, width=10,
+  ggsave(
           # file name uses endpoint name
           paste("graphs/",endpnt,"_resources.png", sep=""), 
 
