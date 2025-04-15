@@ -5,7 +5,7 @@ library("ggplot2")
 library("collapse")
 library("ggrepel")
 
-thread_counts <- c(1, 4, 16, 64, 256, 1024, 2048, 4096)
+thread_counts <- c(1, 4, 16, 64) #, 256, 1024, 2048, 4096)
 
 print("Reading from freshdata/")
 print("Please ensure only one file from each test is included")
@@ -47,7 +47,7 @@ make_string <- function(num) {paste(num, "", sep="")}
 endpoint <- c("hello", "static", "dynamic", "hash")
 
 # x axis: axum .net express gin axum .net express gin ...
-framework <- rep(c("Axum (Rust)", "ASP.NET (C#)", "Express (JavaScript)", "Gin (Go)"),8)
+framework <- rep(c("Axum (Rust)", "ASP.NET (C#)", "Express (JavaScript)", "Gin (Go)"),4)
 
 connections <- unlist(lapply(lapply(thread_counts, make_string), make_multiple, 4))
 
