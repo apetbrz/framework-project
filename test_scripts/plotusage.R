@@ -116,8 +116,9 @@ for(endpnt in endpoint){
           geom_bar(
                   data=df,
                   mapping=aes(x=connections, y=(mem_value/25), group=framework), 
-                  fill="grey",
+                  fill="black",
                   color="darkgray",
+                  alpha=0.4,
                   linewidth=.5,
                   position=position_dodge(3.2), 
                   stat="identity",
@@ -127,11 +128,12 @@ for(endpnt in endpoint){
                   data=df,
                   mapping=aes(x=connections, y=cpu_value, fill=framework),
                   position=position_dodge(3.2), 
-                  color="grey",
+                  color="darkgrey",
                   linewidth=.5,
                   stat="identity",
                   width=1.8
                   ) + 
+          scale_fill_grey(start=0.4, end=0.9) + 
           # with labels
           #geom_label_repel(aes(label=round(value,2)), position=position_dodge(3.1), size=2) + 
           # title based on endpoint

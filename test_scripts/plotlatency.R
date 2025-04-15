@@ -104,6 +104,7 @@ for(endpnt in endpoint){
            geom_bar(position=position_dodge(3.1), stat="identity", width=3, color="grey", linewidth=.5) + 
            # with std deviation bars
            geom_errorbar(aes(x=connections, ymin=value-std_dev,ymax=value+std_dev), position=position_dodge(3.1), color="black", linewidth=0.5) +
+           scale_fill_grey(start=0.4, end=0.9) + 
            # with labels
            geom_label_repel(aes(label=round(value,2)), position=position_dodge(3.1), size=2) + 
            # title based on endpoint
