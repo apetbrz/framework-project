@@ -116,7 +116,7 @@ for(endpnt in endpoint){
            # legend label
            labs(fill="Framework") +
            # y limit: 0 and max
-           ylim(0,max(value)*1.1) + 
+           # ylim(0,max(value)*1.1) + 
            # order x axis based on connections list (in order)
            scale_x_discrete(limits=connections) #+
            # y axis tick every 100ms
