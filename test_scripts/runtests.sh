@@ -12,6 +12,11 @@ Usage:
 Omitting duration defaults to 60s
 Omitting threadcount runs 1, 4, 16, 64, 256, 1024, 2048.
 Threadcount input only supports one at a time.
+
+NOTE: This uses default rewrk currently, meaning no support for
+unique X-Connection-Id values.
+
+For unique X-Connection-Id headers, use runtests-experimental!
 "
 
   exit

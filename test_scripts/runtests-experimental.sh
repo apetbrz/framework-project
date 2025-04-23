@@ -7,7 +7,7 @@ if [[ $1 = '-h' || $1 = '--help' || $1 = '-?' ]]; then
     for Spring 2025 Senior Project
 
 Experimental version depends on https://github.com/apetbrz/rewrk
-Clone and build it, and link the binary as 'rewrk-experimental' in your $PATH
+Clone and build it, and link the binary as 'rewrk-experimental' in your \$PATH
 
 Usage:
 ./runtests-experimental.sh [framework target] [hostname] {duration (s)} {threadcount}
@@ -19,6 +19,13 @@ Threadcount input only supports one at a time.
 
   exit
 
+fi
+
+if ! [[ rewrk-experimental ]]; then
+  echo $"
+Please clone https://github.com/apetbrz/rewrk and link it in your \$PATH!
+"
+  exit
 fi
 
 axum_port="3000"
