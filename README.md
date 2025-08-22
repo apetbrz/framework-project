@@ -8,7 +8,7 @@ This is a study into web back-end framework performance and efficiency. Four fra
 - Express (JavaScript)
 - Gin Gonic (Golang)
 
-[more info todo!]
+Testing was done using [rewrk](https://github.com/lnx-search/rewrk), automated through shell scripts, with data plotted using R.
 
 ## Procedure:
 
@@ -24,11 +24,13 @@ This is a study into web back-end framework performance and efficiency. Four fra
 ### 2. Running a test
 
 - On the interactive docker container, use `runserver` to start each server.
-- - Axum, ASP.NET, and Gin can all be shut down with CTRL+C
-- - `runserver stopexpress` can shut down the Express server
+  - Axum, ASP.NET, and Gin can all be shut down with CTRL+C
+  - `runserver stopexpress` can shut down the Express server
 - TODO: install tmux on docker, use `watchresources.sh` on server to log resource usage
 - On the testing client, use `test_scripts/runtests.sh` to start each benchmark
 
-## Results
+## Example Results
 
-graph pictures todo!
+![static endpoint latency](https://github.com/apetbrz/framework-project/blob/main/test_scripts/graphs/static_data_low.png)
+
+![static endpoint resource utilization](https://github.com/apetbrz/framework-project/blob/main/test_scripts/graphs/static_resources.png)
