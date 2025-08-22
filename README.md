@@ -23,11 +23,11 @@ Testing was done using [rewrk](https://github.com/lnx-search/rewrk), automated t
 
 ### 2. Running a test
 
-- On the interactive docker container, use `runserver` to start each server.
-  - Axum, ASP.NET, and Gin can all be shut down with CTRL+C
-  - `runserver stopexpress` can shut down the Express server
-- TODO: install tmux on docker, use `watchresources.sh` on server to log resource usage
-- On the testing client, use `test_scripts/runtests.sh` to start each benchmark
+- On the interactive docker container, use `runserver [framework name]` to start each server.
+  - `axum`, `asp.net`, and `gin` can all be shut down with CTRL+C
+  - `express` can be stopped with `runserver stopexpress`
+- Resource usage was monitored with the `watchresources.sh` script on the server using tmux.
+- On the testing client, use `test_scripts/runtests.sh` to start each benchmark.
 
 ## Example Results
 
