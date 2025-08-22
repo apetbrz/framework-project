@@ -29,7 +29,7 @@ Testing was done using [rewrk](https://github.com/lnx-search/rewrk), automated t
 - Resource usage was monitored with the `watchresources.sh` script on the server using tmux.
 - On the testing client, use `test_scripts/runtests.sh` to start each benchmark.
 
-## Example Results
+## Example Results:
 
 ![static endpoint latency](https://github.com/apetbrz/framework-project/blob/main/test_scripts/graphs/static_data_low.png)
 
