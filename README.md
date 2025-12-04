@@ -10,6 +10,13 @@ This is a study into web back-end framework performance and efficiency. Four fra
 
 Testing was done using [rewrk](https://github.com/lnx-search/rewrk), automated through shell scripts, with data plotted using R.
 
+The four endpoints are:
+
+- /hello - Responds with a json `{message: "Hello World!"}`
+- /static - Responds with an HTML file from local storage
+- /dynamic - Loads data from a request header and renders it into an HTML template
+- /hash - Hashes a password and generates a UUID
+
 ## Procedure:
 
 ### 0. Prerequisites
