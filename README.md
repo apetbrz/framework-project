@@ -25,7 +25,7 @@ The four endpoints are:
 
 ### 1. Setup
 
-- Clone this repo (https://github.com/apetbrz/framework-project.git) onto both the hosting server device and the latency testing client device.
+- Clone this repo (https://github.com/apetbrz/framework-project.git) onto the hosting server device and the latency testing client device.
 - On the server, run `build.sh` to build the docker image, then `run.sh` to start it up.
 
 ### 2. Running a test
@@ -33,7 +33,7 @@ The four endpoints are:
 - On the interactive docker container, use `runserver [framework name]` to start each server.
   - `axum`, `asp.net`, and `gin` can all be shut down with CTRL+C
   - `express` can be stopped with `runserver stopexpress`
-- Resource usage was monitored with the `watchresources.sh` script on the server using tmux.
+- Resource usage was monitored with the `watchresources.sh` script on the server. Attach a second shell with `docker exec -it [container] bash`.
 - On the testing client, use `test_scripts/runtests.sh` to start each benchmark.
 
 ## Example Results:

@@ -1,26 +1,34 @@
 #!/usr/bin/env bash
 
-if [[ $1 = '-h' || $1 = '--help' || $1 = '-?' ]]; then
+if [[ $1 = '-h' || $1 = '--help' || $1 = '-?' || $1 = '' ]]; then
 
-  echo $"
+    echo $"
 ~=[ Arthur's Automated Test System ]=~
     for Spring 2025 Senior Project
 
 Usage:
 ./runtests.sh [framework target] [hostname] {duration (s)} {threadcount}
 
+Omitting hostname defaults to localhost
 Omitting duration defaults to 60s
 Omitting threadcount runs 1, 4, 16, 64, 256, 1024, 2048.
 Threadcount input only supports one at a time.
 
 NOTE: This uses default rewrk currently, meaning no support for
-unique X-Connection-Id values.
+unique X-Connection-Id values (used by /dynamic endpoint test).
+This means every request will have identical values (shouldn't matter).
 
 For unique X-Connection-Id headers, use runtests-experimental!
 "
 
-  exit
+    exit
 
+fi
+
+if ! type rewrk &>/dev/null; then
+    echo "This script depends on https://github.com/lnx-search/rewrk
+Not found on your system"
+    exit
 fi
 
 axum_port="3000"
@@ -32,81 +40,83 @@ default_threads=(1 4 16 64 256 1024 2048 4096)
 default_duration=60
 
 target=$1
-host=$2}:"
+host=${2:-"localhost"}
 duration=${3:-${default_duration}}
 threads=($4)
 threads=${threads:-${default_threads[@]}}
 
 if [ ! -z "$(find freshdata -maxdepth 1 -name "data_$target*")" ]; then
 
-  echo "Data for $target found inside freshdata/
+    echo "Data for $target found inside freshdata
 Please move it!
 Exiting..."
 
-  exit
+    exit
 
 fi
 
 case $target in
 
 "axum")
-  host="${host}${axum_port}"
-  ;;
+    host="${host}:${axum_port}"
+    ;;
 "dotnet")
-  host="${host}${dotnet_port}"
-  ;;
+    host="${host}:${dotnet_port}"
+    ;;
 "express")
-  host="${host}${express_port}"
-  ;;
+    host="${host}:${express_port}"
+    ;;
 "gin")
-  host="${host}${gin_port}"
-  ;;
+    host="${host}:${gin_port}"
+    ;;
 *)
-  echo "invalid framework target: $(target)"
-  return
-  ;;
+    echo "invalid framework target: $(target)"
+    return
+    ;;
 
 esac
 
+echo $"Targetting ${host}..."
+
 for threadcount in $threads; do
 
-  printf -v formatted_threadcount "%04d" $threadcount
+    printf -v formatted_threadcount "%04d" $threadcount
 
-  filename="data_${target}_${formatted_threadcount}-conn_$(date "+%Y-%m-%d_%H-%M-%S.json")"
+    filename="data_${target}_${formatted_threadcount}-conn_$(date "+%Y-%m-%d_%H-%M-%S.json")"
 
-  touch "freshdata/$filename"
+    touch "freshdata/$filename"
 
-  echo "
+    echo "
 Starting $filename"
 
-  hello_starttime="$(date "+%T")"
-  echo "/hello start: $hello_starttime"
-  hello_output="$(./awsts.sh $host hello $threadcount $duration --json)"
+    hello_starttime="$(date "+%T")"
+    echo "/hello start: $hello_starttime"
+    hello_output="$(./awsts.sh $host hello $threadcount $duration --json)"
 
-  static_starttime="$(date "+%T")"
-  echo "/static start: $static_starttime"
-  static_output="$(./awsts.sh $host static $threadcount $duration --json)"
+    static_starttime="$(date "+%T")"
+    echo "/static start: $static_starttime"
+    static_output="$(./awsts.sh $host static $threadcount $duration --json)"
 
-  dynamic_starttime="$(date "+%T")"
-  echo "/dynamic start: $dynamic_starttime"
-  dynamic_output="$(./awsts.sh $host dynamic $threadcount $duration 2863311530 --json)"
+    dynamic_starttime="$(date "+%T")"
+    echo "/dynamic start: $dynamic_starttime"
+    dynamic_output="$(./awsts.sh $host dynamic $threadcount $duration 2863311530 --json)"
 
-  hash_starttime="$(date "+%T")"
-  echo "/hash start: $hash_starttime"
-  hash_output="$(./awsts.sh $host hash $threadcount $duration this_is_a_very_long_password --json)"
+    hash_starttime="$(date "+%T")"
+    echo "/hash start: $hash_starttime"
+    hash_output="$(./awsts.sh $host hash $threadcount $duration this_is_a_very_long_password --json)"
 
-  jq --null-input \
-    --arg testname "${target}_${threadcount}-conn" \
-    --arg testdate "$(date "+%d-%m-%Y")" \
-    --arg hellotime $hello_starttime \
-    --argjson hellodata $hello_output \
-    --arg statictime $static_starttime \
-    --argjson staticdata $static_output \
-    --arg dynamictime $dynamic_starttime \
-    --argjson dynamicdata $dynamic_output \
-    --arg hashtime $hash_starttime \
-    --argjson hashdata $hash_output \
-    '{"test":$testname,"date":$testdate,
+    jq --null-input \
+        --arg testname "${target}_${threadcount}-conn" \
+        --arg testdate "$(date "+%d-%m-%Y")" \
+        --arg hellotime $hello_starttime \
+        --argjson hellodata $hello_output \
+        --arg statictime $static_starttime \
+        --argjson staticdata $static_output \
+        --arg dynamictime $dynamic_starttime \
+        --argjson dynamicdata $dynamic_output \
+        --arg hashtime $hash_starttime \
+        --argjson hashdata $hash_output \
+        '{"test":$testname,"date":$testdate,
     "tests":{
      "hello":{"name":"hello","time":$hellotime,"data":$hellodata},
      "static":{"name":"static","time":$statictime,"data":$staticdata},
@@ -115,6 +125,6 @@ Starting $filename"
     }
    }' >"freshdata/$filename"
 
-  echo "Finished $filename"
+    echo "Finished $filename"
 
 done
