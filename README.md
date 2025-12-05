@@ -34,8 +34,15 @@ The four endpoints are:
 - On the interactive docker container, use `runserver [framework name]` to start each server.
   - `axum`, `asp.net`, and `gin` can all be shut down with CTRL+C
   - `express` can be stopped with `runserver stopexpress`
-- Resource usage was monitored with the `watchresources.sh` script on the server. Attach a second shell with `docker exec -it [container] bash`.
+- Monitor resource usage on the server with the `test_scripts/watchresources.sh` script. Attach a second shell with `docker exec -it [container] bash`. Run `watchresources.sh` just before commencing a test.
 - On the testing client, use `test_scripts/runtests.sh` to start each benchmark.
+
+### 3. Analyzing Data
+
+Requires `R` installation: `https://cloud.r-project.org/`
+
+- To plot latency data, use `test_scripts/plotlatency.R`. It takes data from `freshdata/`.
+- To plot resource utilization data, use `test_scripts/parseusage.sh` on the resource usage log file, and then use `test_scripts/plotusage.R`.
 
 ## Example Results:
 
