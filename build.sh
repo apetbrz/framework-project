@@ -1,1 +1,1 @@
-docker build "framework_project" .
+docker build -t "framework_project" .
