@@ -21,7 +21,8 @@ The four endpoints are:
 
 ### 0. Prerequisites
 
-`Docker version 28.0.4`
+`Docker version 28+`
+`https://github.com/lnx-search/rewrk`
 
 ### 1. Setup
 
