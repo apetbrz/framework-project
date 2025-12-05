@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
+if [[ $1 = '-h' || $1 = '--help' || $1 = '-?' || $1 = '' ]]; then
 
+    echo $"usage:
+    ./parseusage.sh [input log file (from watchresources.sh)]"
+    exit
+fi
 inputfile=$1
 outputfile="$(echo $inputfile | awk -F"." '{printf "%s.csv", $1}')"
 echo $outputfile

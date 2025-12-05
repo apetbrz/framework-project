@@ -1,0 +1,10 @@
+archivedata.sh - moves everything from freshdata/ to olddata/
+awsts.sh - Arthur's Web Server Testing Script. runs each individual endpoint test
+runtests.sh - runs bulk tests (all 4 endpoints) (uses awsts.sh)
+getmetric.sh - extracts specific data point from testing results .json
+watchresources.sh - uses top to watch system resource usage
+parseusage.sh - takes watchresources.sh output and parses it into a .csv
+plotlatency.R - takes latency data .json from tests and plots results
+plotusage.R - takes resource usage .csv and plots results
+
+*-experimental.sh - uses custom rewrk version with automatic request header IDs, specific to /dynamic endpoint test

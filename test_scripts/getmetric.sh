@@ -3,10 +3,9 @@
 filename=$1
 metric=$2
 
-if [[ $1 = '-h' ]]
-then
+if [[ $1 = '-h' || $1 = '--help' || $1 = '-?' ]]; then
 
-echo "
+    echo "
 ~=[ Arthur's Data Metric Extractor ]=~
     for Spring 2025 Senior Project
 
@@ -24,7 +23,7 @@ transfer_rate
 transfer_total
 "
 
-exit
+    exit
 
 fi
 
